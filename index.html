@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santiago Garcia Solimei — Unfiltered Mindsets</title>
+<meta name="description" content="Founder · Resident Cultural Hacker. Global Digital Consulting.">
+<meta property="og:title" content="Santiago Garcia Solimei — Unfiltered Mindsets">
+<meta property="og:description" content="Founder · Resident Cultural Hacker. Global Digital Consulting.">
+<meta property="og:type" content="profile">
+<meta name="theme-color" content="#080808">
+<link rel="canonical" href="https://ssolimei.github.io/contact">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #080808;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #fff;
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: #060a06;
+    border: 1px solid rgba(57,255,20,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Scan lines */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 3px,
+      rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px 18px;
+    border-bottom: 1px solid rgba(57,255,20,0.1);
+  }
+
+  .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-lockup svg {
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(57,255,20,0.4)); }
+    50%       { filter: drop-shadow(0 0 10px rgba(57,255,20,0.8)); }
+  }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 5px;
+    line-height: 1;
+  }
+  .brand-name .w1 { color: #fff; }
+  .brand-name .w2 { color: #39FF14; }
+
+  .rec-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rec-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #39FF14;
+    box-shadow: 0 0 5px rgba(57,255,20,0.9);
+    animation: blink 2s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.1; }
+  }
+  .rec-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: rgba(57,255,20,0.5);
+  }
+
+  /* QR section */
+  .qr-section {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 28px 28px;
+    gap: 16px;
+  }
+
+  .qr-frame {
+    position: relative;
+    padding: 16px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  /* Corner brackets on QR */
+  .qr-frame::before, .qr-frame::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-color: #39FF14;
+    border-style: solid;
+  }
+  .qr-frame::before {
+    top: -2px; left: -2px;
+    border-width: 2px 0 0 2px;
+  }
+  .qr-frame::after {
+    bottom: -2px; right: -2px;
+    border-width: 0 2px 2px 0;
+  }
+
+  .qr-corner-tr, .qr-corner-bl {
+    position: absolute;
+    width: 16px; height: 16px;
+    border-color: #39FF14;
+    border-style: solid;
+  }
+  .qr-corner-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+  .qr-corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+
+  #qrcode {
+    display: block;
+    line-height: 0;
+  }
+  #qrcode img, #qrcode canvas {
+    display: block;
+  }
+
+  .scan-hint {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: rgba(57,255,20,0.4);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* Divider */
+  .divider {
+    position: relative;
+    z-index: 1;
+    height: 1px;
+    margin: 0 28px;
+    background: linear-gradient(to right, transparent, rgba(57,255,20,0.2) 30%, rgba(57,255,20,0.2) 70%, transparent);
+  }
+
+  /* Info section */
+  .info-section {
+    position: relative;
+    z-index: 1;
+    padding: 28px 28px 24px;
+  }
+
+  .person-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: #fff;
+    line-height: 0.95;
+    margin-bottom: 10px;
+  }
+
+  .person-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #39FF14;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: rgba(57,255,20,0.4);
+    text-transform: uppercase;
+  }
+
+  .contact-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* Download button */
+  .save-btn {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: calc(100% - 56px);
+    margin: 0 28px 28px;
+    padding: 14px 20px;
+    background: transparent;
+    border: 1px solid #39FF14;
+    color: #39FF14;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 0 12px rgba(57,255,20,0.15), inset 0 0 12px rgba(57,255,20,0.05);
+  }
+
+  .save-btn:hover {
+    background: rgba(57,255,20,0.1);
+    box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 20px rgba(57,255,20,0.08);
+  }
+
+  /* Footer */
+  .footer {
+    position: relative;
+    z-index: 1;
+    padding: 14px 28px;
+    border-top: 1px solid rgba(57,255,20,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(57,255,20,0.2);
+    font-style: italic;
+  }
+
+  .footer-url {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.15);
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="logo-lockup">
+      <!-- Primary brain mark -->
+      <svg width="22" height="22" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="b1"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b2"/>
+            <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#glow)" stroke="#39FF14" fill="none">
+          <path stroke-width="2" d="M40 12C25 12, 10 23, 10 40C10 54, 18 64, 32 67L40 67L40 12Z"/>
+          <path stroke-width="2" d="M40 12C55 12, 70 23, 70 40C70 54, 62 64, 48 67L40 67L40 12Z"/>
+          <line x1="40" y1="12" x2="40" y2="67" stroke-width="2"/>
+          <circle cx="40" cy="40" r="3.5" fill="#39FF14" stroke="none"/>
+        </g>
+      </svg>
+      <div class="brand-name">
+        <span class="w1">UNFILTERED </span><span class="w2">MINDSETS</span>
+      </div>
+    </div>
+    <div class="rec-wrap">
+      <div class="rec-dot"></div>
+      <div class="rec-label">LIVE</div>
+    </div>
+  </div>
+
+  <!-- QR Code -->
+  <div class="qr-section">
+    <div class="qr-frame">
+      <div class="qr-corner-tr"></div>
+      <div class="qr-corner-bl"></div>
+      <div id="qrcode"></div>
+    </div>
+    <div class="scan-hint">Scan to save contact</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Contact info -->
+  <div class="info-section">
+    <div class="person-name">SANTIAGO<br>GARCIA SOLIMEI</div>
+    <div class="person-title">Founder · Resident Cultural Hacker</div>
+    <div class="contact-list">
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <div class="contact-value">hello@unfilteredmindsets.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Cell</div>
+        <div class="contact-value">+34 600 949 753</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Web</div>
+        <div class="contact-value">unfiltered-mindsets.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Instagram</div>
+        <div class="contact-value">@santigarciaunfiltered</div>
+      </div>
+    </div>
+
+    <!-- Download / Save button -->
+    <a class="save-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
+      ↓ Save Contact
+    </a>
+  </div>
+
+  <div class="footer">
+    <div class="footer-tagline">Humanizing the future of business</div>
+    <div class="footer-url">unfiltered-mindsets.com</div>
+  </div>
+
+</div>
+
+<script>
+  // vCard data — encoded directly into the QR code
+  // Scanning this on any modern phone will prompt "Save Contact"
+  const vcard = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "N:Garcia Solimei;Santiago;;;",
+    "FN:Santiago Garcia Solimei",
+    "ORG:Unfiltered Mindsets",
+    "TITLE:Founder - Resident Cultural Hacker",
+    "TEL;TYPE=CELL,VOICE:+34600949753",
+    "EMAIL;TYPE=INTERNET,PREF:hello@unfilteredmindsets.com",
+    "URL:https://unfiltered-mindsets.com",
+    "X-SOCIALPROFILE;type=instagram:@santigarciaunfiltered",
+    "END:VCARD"
+  ].join("\n");
+
+  // Generate QR code
+  new QRCode(document.getElementById("qrcode"), {
+    text: vcard,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  // Wire up the download button with the vCard blob
+  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+  const url  = URL.createObjectURL(blob);
+  document.getElementById("saveBtn").href = url;
+</script>
+
+</body>
+</html>
