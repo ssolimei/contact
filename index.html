@@ -230,7 +230,7 @@
 
   .contact-label {
     font-family: 'Space Mono', monospace;
-    font-size: 7px;
+    font-size: 8px;
     letter-spacing: 3px;
     color: rgba(57,255,20,0.4);
     text-transform: uppercase;
@@ -238,9 +238,20 @@
 
   .contact-value {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     color: rgba(255,255,255,0.8);
+  }
+
+  /* Clickable contact links */
+  .contact-value a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .contact-value a:hover, .contact-value a:active {
+    color: #39FF14;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* Action buttons */
@@ -368,19 +379,19 @@
     <div class="contact-list">
       <div class="contact-item">
         <div class="contact-label">Email</div>
-        <div class="contact-value">hello@unfilteredmindsets.com</div>
+        <div class="contact-value"><a href="mailto:hello@unfilteredmindsets.com">hello@unfilteredmindsets.com</a></div>
       </div>
       <div class="contact-item">
         <div class="contact-label">Cell</div>
-        <div class="contact-value">+34 600 949 753</div>
+        <div class="contact-value"><a href="tel:+34600949753">+34 600 949 753</a></div>
       </div>
       <div class="contact-item">
         <div class="contact-label">Web</div>
-        <div class="contact-value">unfiltered-mindsets.com</div>
+        <div class="contact-value"><a href="https://unfiltered-mindsets.com" target="_blank" rel="noopener">unfiltered-mindsets.com</a></div>
       </div>
       <div class="contact-item">
         <div class="contact-label">Instagram</div>
-        <div class="contact-value">@santigarciaunfiltered</div>
+        <div class="contact-value"><a href="https://instagram.com/santigarciaunfiltered" target="_blank" rel="noopener">@santigarciaunfiltered</a></div>
       </div>
     </div>
 
@@ -423,8 +434,8 @@
   // Generate QR code
   new QRCode(document.getElementById("qrcode"), {
     text: vcard,
-    width: 200,
-    height: 200,
+    width: 96,
+    height: 96,
     colorDark: "#000000",
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.M
