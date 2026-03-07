@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santiago Garcia Solimei — Digital Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #050505;
+    width: 1800px;
+    height: 1000px;
+    overflow: hidden;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .card {
+    width: 1800px;
+    height: 1000px;
+    background: #080808;
+    display: grid;
+    grid-template-columns: 660px 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ══════════════════════════════════════════
+     LEFT PANEL — VISUAL EFFECTS ZONE
+  ══════════════════════════════════════════ */
+  .left {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 70px 48px 70px 60px;
+    background: #060a06;
+    overflow: hidden;
+  }
+
+  /* ── Text block (left side of left panel) ── */
+  .left-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  /* ── Dark green ambient radial ── */
+  .left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 500px 500px at 50% 42%, rgba(57,255,20,0.09) 0%, rgba(10,30,10,0.4) 50%, transparent 75%),
+      linear-gradient(160deg, rgba(20,40,20,0.5) 0%, rgba(6,10,6,0.8) 60%, rgba(2,6,2,1) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SCAN LINES overlay ── */
+  .left::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.18) 3px,
+      rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  /* ── Right divider: neon glow line ── */
+  .left-divider {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(57,255,20,0.4) 15%,
+      rgba(57,255,20,0.9) 40%,
+      rgba(57,255,20,1)   50%,
+      rgba(57,255,20,0.9) 60%,
+      rgba(57,255,20,0.4) 85%,
+      transparent 100%);
+    box-shadow: 0 0 8px rgba(57,255,20,0.9), 0 0 24px rgba(57,255,20,0.5), 0 0 50px rgba(57,255,20,0.2);
+    z-index: 5;
+  }
+
+  /* ── Brain halo ── */
+  .brain-halo {
+    position: absolute;
+    top: 50%; right: 56px;
+    transform: translateY(-50%);
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(57,255,20,0.12) 0%,
+      rgba(57,255,20,0.05) 40%,
+      transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Logo row: brain + company name side by side ── */
+  .logo-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Brain wrap ── */
+  .brain-wrap {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(57,255,20,0.4)); }
+    50%       { filter: drop-shadow(0 0 20px rgba(57,255,20,0.7)); }
+  }
+
+  /* ── Company name with GLITCH effect ── */
+  .company-name {
+    position: relative;
+    z-index: 2;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    letter-spacing: 8px;
+    text-align: left;
+    line-height: 1;
+    margin-bottom: 0;
+    animation: glitch 6s infinite;
+  }
+  .company-name .w1 { color: #ffffff; }
+  .company-name .w2 {
+    color: #39FF14;
+    text-shadow: 0 0 10px rgba(57,255,20,0.8), 0 0 25px rgba(57,255,20,0.4);
+  }
+
+  /* Glitch animation — fires occasionally, not constantly */
+  @keyframes glitch {
+    0%, 88%, 100% {
+      text-shadow: none;
+      transform: none;
+    }
+    89% {
+      text-shadow: -2px 0 rgba(255,0,60,0.8), 2px 0 rgba(0,255,255,0.6);
+      transform: translateX(-2px);
+    }
+    90% {
+      text-shadow: 2px 0 rgba(255,0,60,0.8), -2px 0 rgba(0,255,255,0.6);
+      transform: translateX(2px);
+    }
+    91% {
+      text-shadow: -1px 0 rgba(255,0,60,0.6), 1px 0 rgba(0,255,255,0.4);
+      transform: translateX(0);
+    }
+    92%, 95% {
+      text-shadow: none;
+      transform: none;
+    }
+    96% {
+      text-shadow: -3px 0 rgba(255,0,60,0.7), 3px 0 rgba(0,255,255,0.5);
+      transform: translateX(-1px) skewX(-2deg);
+    }
+    97% {
+      text-shadow: none;
+      transform: none;
+    }
+  }
+
+  /* ── Tagline ── */
+  .company-tagline {
+    position: relative;
+    z-index: 2;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: rgba(57,255,20,0.55);
+    text-align: left;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    padding-left: 46px; /* 32px brain + 14px gap */
+  }
+
+  /* ── Website URL ── */
+  .company-url {
+    position: relative;
+    z-index: 2;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.35);
+    text-align: left;
+    padding-left: 46px; /* 32px brain + 14px gap */
+  }
+
+  /* ── Corner coords (surveillance feel) ── */
+  .corner-tl, .corner-br {
+    position: absolute;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(57,255,20,0.2);
+    z-index: 3;
+  }
+  .corner-tl { top: 24px; left: 28px; }
+  .corner-br { bottom: 24px; right: 28px; }
+
+  /* ── REC dot ── */
+  .rec-indicator {
+    position: absolute;
+    top: 26px; right: 36px;
+    display: flex; align-items: center; gap: 6px;
+    z-index: 3;
+  }
+  .rec-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #39FF14;
+    box-shadow: 0 0 6px rgba(57,255,20,0.9);
+    animation: blink 2s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.1; }
+  }
+  .rec-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: rgba(57,255,20,0.5);
+  }
+
+  /* ══════════════════════════════════════════
+     RIGHT PANEL — CONTACT INFO
+  ══════════════════════════════════════════ */
+  .right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 100px 80px 96px;
+    background: #080808;
+  }
+
+  /* Subtle right-side ambient */
+  .right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 700px 600px at 60% 50%, rgba(57,255,20,0.025) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Top accent rule */
+  .accent-rule {
+    width: 44px;
+    height: 2px;
+    background: #39FF14;
+    box-shadow: 0 0 10px rgba(57,255,20,0.9), 0 0 22px rgba(57,255,20,0.4);
+    margin-bottom: 36px;
+  }
+
+  /* Name */
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 5px;
+    color: #ffffff;
+    line-height: 0.95;
+    margin-bottom: 4px;
+  }
+  .name .first { display: block; }
+  .name .last  { display: block; }
+
+  /* Title */
+  .title-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #39FF14;
+    text-transform: uppercase;
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+
+  .roles {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 52px;
+  }
+  .roles .sep { color: rgba(57,255,20,0.4); margin: 0 10px; }
+
+  /* Divider */
+  .info-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, rgba(57,255,20,0.25), rgba(57,255,20,0.05) 60%, transparent);
+    margin-bottom: 44px;
+  }
+
+  /* Contact grid */
+  .contacts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 64px;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .contact-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: rgba(57,255,20,0.45);
+    text-transform: uppercase;
+  }
+
+  .contact-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.82);
+    letter-spacing: 0.3px;
+  }
+
+  /* Bottom tagline */
+  .bottom-tagline {
+    position: absolute;
+    bottom: 48px;
+    right: 100px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: rgba(57,255,20,0.22);
+    text-align: right;
+  }
+
+  /* Corner mark */
+  .corner-mark {
+    position: absolute;
+    top: 44px;
+    right: 100px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.1);
+  }
+
+  /* QR code block */
+  .qr-block {
+    position: absolute;
+    bottom: 44px;
+    right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .qr-block #card-qr {
+    padding: 6px;
+    background: #fff;
+    border-radius: 2px;
+    line-height: 0;
+  }
+
+  .qr-block #card-qr img,
+  .qr-block #card-qr canvas { display: block; }
+
+  .qr-scan-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: rgba(57,255,20,0.3);
+    text-transform: uppercase;
+  }
+
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- ══════════════════════════
+       LEFT PANEL — VISUAL ZONE
+  ══════════════════════════ -->
+  <div class="left">
+
+    <!-- Surveillance / editorial details -->
+    <div class="corner-tl">UM — 2025</div>
+    <div class="corner-br">SIGNAL: ACTIVE</div>
+    <div class="rec-indicator">
+      <div class="rec-dot"></div>
+      <div class="rec-text">LIVE</div>
+    </div>
+
+    <!-- Brain halo light -->
+    <div class="brain-halo"></div>
+
+    <!-- Text block — left aligned -->
+    <div class="left-text">
+
+      <!-- Logo row: brain mark + company name -->
+      <div class="logo-row">
+        <div class="brain-wrap">
+          <svg width="32" height="32" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" result="b1"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2"   result="b2"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5"   result="b3"/>
+                <feMerge>
+                  <feMergeNode in="b3"/>
+                  <feMergeNode in="b2"/>
+                  <feMergeNode in="b1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#glow)" stroke="#39FF14" fill="none">
+              <path stroke-width="1.2" d="M40 12C25 12, 10 23, 10 40C10 54, 18 64, 32 67L40 67L40 12Z"/>
+              <path stroke-width="1.2" d="M40 12C55 12, 70 23, 70 40C70 54, 62 64, 48 67L40 67L40 12Z"/>
+              <line x1="40" y1="12" x2="40" y2="67" stroke-width="1.2"/>
+              <circle cx="40" cy="40" r="2.5" fill="#39FF14" stroke="none"/>
+            </g>
+          </svg>
+        </div>
+        <div class="company-name">
+          <span class="w1">UNFILTERED </span><span class="w2">MINDSETS</span>
+        </div>
+      </div>
+
+      <div class="company-tagline">Global Digital Consulting</div>
+      <div class="company-url">unfiltered-mindsets.com</div>
+    </div>
+
+    <!-- Right edge glow divider -->
+    <div class="left-divider"></div>
+  </div>
+
+  <!-- ══════════════════════════
+       RIGHT PANEL — INFO
+  ══════════════════════════ -->
+  <div class="right">
+    <div class="corner-mark">UM / CARD</div>
+
+    <div class="accent-rule"></div>
+
+    <div class="name">
+      <span class="first">SANTIAGO</span>
+      <span class="last">GARCIA SOLIMEI</span>
+    </div>
+
+    <div class="title-line">Founder · Resident Cultural Hacker</div>
+
+    <div class="roles">
+      Keynote Speaker
+      <span class="sep">·</span>
+      Advisor
+      <span class="sep">·</span>
+      Digital Strategist
+    </div>
+
+    <div class="info-divider"></div>
+
+    <div class="contacts">
+      <div class="contact-item">
+        <div class="contact-label">Web</div>
+        <div class="contact-value">unfiltered-mindsets.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <div class="contact-value">hello@unfilteredmindsets.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Instagram</div>
+        <div class="contact-value">@santigarciaunfiltered</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Cell</div>
+        <div class="contact-value">+34 600 949 753</div>
+      </div>
+    </div>
+
+    <div class="bottom-tagline">Humanizing the future of business through radical truth</div>
+
+    <!-- QR code — points to GitHub Pages contact card -->
+    <div class="qr-block">
+      <div id="card-qr"></div>
+      <div class="qr-scan-label">Save Contact</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── Update this URL once your GitHub Pages site is live ──
+  const contactUrl = "https://YOUR-USERNAME.github.io/contact";
+
+  new QRCode(document.getElementById("card-qr"), {
+    text: contactUrl,
+    width: 80,
+    height: 80,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+</body>
+</html>
