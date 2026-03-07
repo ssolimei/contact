@@ -1,7 +1,7 @@
 // Unfiltered Mindsets — Service Worker
 // Caches the card for offline access
 
-const CACHE_NAME = 'um-card-v1';
+const CACHE_NAME = 'um-card-v2';
 const ASSETS = [
   './',
   './index.html',
