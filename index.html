@@ -2,14 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Santiago Garcia Solimei — Unfiltered Mindsets</title>
-<meta name="description" content="Founder · Resident Cultural Hacker. Global Digital Consulting.">
+<meta name="description" content="Founder · Resident Cultural Hacker. Humanizing the future of business.">
 <meta property="og:title" content="Santiago Garcia Solimei — Unfiltered Mindsets">
-<meta property="og:description" content="Founder · Resident Cultural Hacker. Global Digital Consulting.">
+<meta property="og:description" content="Founder · Resident Cultural Hacker. Humanizing the future of business.">
+<meta property="og:url" content="https://ssolimei.github.io/contact">
 <meta property="og:type" content="profile">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#39FF14">
 <link rel="canonical" href="https://ssolimei.github.io/contact">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- iOS Home Screen App -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Unfiltered">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -18,12 +29,14 @@
   body {
     background: #080808;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'Space Grotesk', sans-serif;
     color: #fff;
-    padding: 40px 20px;
+    padding: max(env(safe-area-inset-top), 20px) 20px max(env(safe-area-inset-bottom), 20px);
   }
 
   .card {
@@ -230,32 +243,51 @@
     color: rgba(255,255,255,0.8);
   }
 
-  /* Download button */
-  .save-btn {
+  /* Action buttons */
+  .action-row {
     position: relative;
     z-index: 1;
-    display: block;
-    width: calc(100% - 56px);
+    display: flex;
+    gap: 10px;
     margin: 0 28px 28px;
-    padding: 14px 20px;
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 14px 10px;
     background: transparent;
     border: 1px solid #39FF14;
     color: #39FF14;
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 4px;
+    font-size: 10px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s;
     box-shadow: 0 0 12px rgba(57,255,20,0.15), inset 0 0 12px rgba(57,255,20,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
 
-  .save-btn:hover {
+  .action-btn:hover, .action-btn:active {
     background: rgba(57,255,20,0.1);
     box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 20px rgba(57,255,20,0.08);
   }
+
+  /* Share button — slightly dimmed until tapped */
+  .share-btn {
+    border-color: rgba(57,255,20,0.55);
+    color: rgba(57,255,20,0.65);
+  }
+
+  /* Hidden when Web Share API not available */
+  .share-btn.hidden { display: none; }
+  /* When share is hidden, save btn takes full width */
+  .action-row .action-btn:only-child { flex: none; width: 100%; }
 
   /* Footer */
   .footer {
@@ -352,10 +384,16 @@
       </div>
     </div>
 
-    <!-- Download / Save button -->
-    <a class="save-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-row">
+    <a class="action-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
       ↓ Save Contact
     </a>
+    <button class="action-btn share-btn hidden" id="shareBtn" onclick="shareCard()">
+      ↑ Share / AirDrop
+    </button>
   </div>
 
   <div class="footer">
@@ -396,6 +434,25 @@
   const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
   const url  = URL.createObjectURL(blob);
   document.getElementById("saveBtn").href = url;
+
+  // Show Share / AirDrop button only when Web Share API is available (iOS Safari, Android Chrome)
+  if (navigator.share) {
+    document.getElementById("shareBtn").classList.remove("hidden");
+  }
+
+  // AirDrop / Share sheet
+  function shareCard() {
+    navigator.share({
+      title: "Santiago Garcia Solimei — Unfiltered Mindsets",
+      text: "Founder · Resident Cultural Hacker\nhello@unfilteredmindsets.com · +34 600 949 753",
+      url: "https://ssolimei.github.io/contact"
+    }).catch(() => { /* user dismissed — no action needed */ });
+  }
+
+  // Register service worker for offline / PWA home screen support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => { /* non-critical */ });
+  }
 </script>
 
 </body>
