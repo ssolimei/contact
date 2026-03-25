@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-title" content="Unfiltered">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- qrcodejs removed — QR is now a static embedded PNG -->
 <style>
 /* ── BRAND TOKENS ── */
 :root {
@@ -265,17 +265,23 @@ body::before {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 20px;
-  padding: 24px 28px 24px 32px;
+  padding: 20px 28px 20px 32px;
   border-bottom: 1px solid var(--green-border);
 }
 
 .qr-wrap {
   position: relative;
   flex-shrink: 0;
-  padding: 12px;
+  width: 160px;
+  height: 160px;
+  padding: 10px;
   background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Corner brackets on QR */
@@ -292,12 +298,14 @@ body::before {
 .qr-wrap .corner-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
 .qr-wrap .corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
 
-#qrcode, #qrcode img, #qrcode canvas { display: block; }
+#qrcode { line-height: 0; }
+#qrcode img, #qrcode canvas { display: block; width: 140px !important; height: 140px !important; }
 
 .qr-meta {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
 
 .qr-hint {
@@ -464,7 +472,7 @@ body::before {
     <div class="contact-list">
       <div class="contact-item">
         <div class="contact-label">EMAIL</div>
-        <div class="contact-value"><a href="mailto:hello@unfilteredmindsets.com">hello@unfilteredmindsets.com</a></div>
+        <div class="contact-value"><a href="/cdn-cgi/l/email-protection#177f727b7b78576279717e7b63726572737a7e7973647263643974787a"><span class="__cf_email__" data-cfemail="6c04090000032c19020a050018091e0908010502081f09181f420f0301">[email&#160;protected]</span></a></div>
       </div>
       <div class="contact-item">
         <div class="contact-label">CELL</div>
@@ -486,7 +494,7 @@ body::before {
     <div class="qr-wrap">
       <div class="corner-tr"></div>
       <div class="corner-bl"></div>
-      <div id="qrcode"></div>
+      <img id="qrcode" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZ4AAAGeAQAAAACMB1qiAAAFhElEQVR4nO1cTU40OwwsXpBYem7AUcLN3tXCUbiBWSJlVG9RdjoDm/dtmv4kl2YxtIg0sRz/VDn9RPwx7v/8+RqgFtWib6ADQCMnOtCbYwITaI7GoQ+MQJ8mP+3z4ns6dVEnic+3Z2DauL8SNl4c99dxv/WvG+430N8bR/t4ayT9b9jTSYtAD5ejgxwTnd4BOR4bSe+w0Tia9+ZoXr73Y5GNp1feb/3F8Qw0jvn5BmACsNEcQL+/jl/7eRddtHyvr+90wAhADxUJYWT53g/QO8nmaOQ0Ng4AsNHI5phG2GjeuR3kst5C5Fzv/+cDoHLuDgrhXQNGGFfKmDZIAoANWPxvWW+BcTw5jctQ0waA5p3ep412xMYOK+sdIAdsTChB9KnihAT6RJ/GaZzoy0VnndwN9K6jSscEGocKPJLkQPYd04a6j/K9HQw3w7QxLWw4beggq1Zp3lX4TWOruLeBZPMu31M/G8+9A5jo2f/2xjGByrk76CA50XUqVfVNQJFwJjmgsBfB8OJ7OjdrqINQuJtxTiO9Qkk5fI+RTS6+p3OzRnYZZNR7I7MGVbrowCqhlO/tICkfmybrjWjcvOs4B+NnnADEBF58T2cveifHy8cTAH68Pd3egwi1cb/h65Uwvvh78x7l9F+xpzMWgY7mHeFaqv1EGgxRLjO9kapb6uRuiJLYhhiVGUxpJI5pVNZQBaiupKy3wEwWweOhK33MeNLFUM2sDIuh2kEHbGQ7xuOTpbI6jmw9enEsO1Y0A5KET6IgZA6KZ0bExupzN6hBI8e0oWqZ3vVRazajhA47FzO/Q52a/Ip+yLgyIELX6IqHKlrKegvqXskoS7Ja7uoypHroofqROrk7wt882IBF4jUOVS8qY6J9U/Vy8T2drkjSO7f6RIMZizGQFsm0ZFlvYeUCqZCyZKPCYF/UaAiU6NXn7lDEEwdF/1Gf7BSfp8xx8T2dzS1jJQ6uuSmgkUcNI5UcFfceEGKuY6IzM4UmB6ThyrbTVMOgKpYdIgQU95R/F8McwwOWQqROd1nvcVFzTLy3j3+Xs704oHqPpGNNT83f+HkXXiTZAgjtTITVnjuC5aNEN+njF9/TybrGGrfIglkDGKkNZZFsmoQs6x2glDLT1CimDQarLDPqv3p0wdWpPSKmU1J8FFMq0g+yZJDPS3cr6x1Y/IDCWvLMOe7ofcbg2QAy/158T6er4cHm2VCHuwZKVf5lTlGELN87sA6pdI3mEQmnjZDYPBpepCxe1ltQ+8AcYtkoPiyVfOtzR3HLO6KHtXGwfNFcILMwo3pJEqastyDHo+TvHJhXz5vtW1x+OTzw4ns6XQ2XjrYCXQqRMUvQPEvomkB7RLB2+mMNDARj0JOB6Ye2Wzl3A9fk3taUhQGZY2mABN8Igxff08mqkPRHKjtkuxHDorr6F5MGKGb+EannDt1QW/dcsFgC6MbucWOorLcgPvmYFjAyJ9CQ9zUAzTbngP3F93Ryr5H31EKOzMmWSLV5hGNKray3IaZWIrj1zLCIC2sOILtdy/B48T2dzI6SLQjk6HCPAW/TF+RI86issYN567Yxpi/0JDgrWS9mWlB67jdkwt3GkpVnk3URkqpCZY0dkWe9x/tD8taVTq56DWxDpNXn7tjYAOSZjcmBcLa4vBY0acW9HdFUOETLB9Niy4xcPYg456pYdqx6DzGkx6MCpOiCHD+LkYPyvQMhYTBu04scUApGpo8oVzxeNlLWW4j3sXAERxovXQFW3MssvCrnst73RZ9vQH+28XVDFslAtrfPeNeX5v35V37eRRct30sNdw2R2jhaMxsKiVWxfENKtyFhiCVg8AMjGYN1ybT03AdsGZYtedEMcQevIgJwWr0TY8dTvTmzFv3Sov8AGyGDOQjE/A0AAAAASUVORK5CYII=" alt="QR Code — Scan to save contact" style="display:block;width:140px;height:140px;" />
     </div>
     <div class="qr-meta">
       <div class="qr-hint">SCAN TO<br>SAVE CONTACT</div>
@@ -515,7 +523,7 @@ body::before {
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const vcard = [
   "BEGIN:VCARD",
   "VERSION:3.0",
@@ -530,14 +538,7 @@ const vcard = [
   "END:VCARD"
 ].join("\n");
 
-new QRCode(document.getElementById("qrcode"), {
-  text: vcard,
-  width: 108,
-  height: 108,
-  colorDark: "#000000",
-  colorLight: "#ffffff",
-  correctLevel: QRCode.CorrectLevel.M
-});
+// QR is now a static embedded PNG — no JS generation needed
 
 const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
 document.getElementById("saveBtn").href = URL.createObjectURL(blob);
@@ -549,14 +550,4 @@ if (navigator.share) {
 function shareCard() {
   navigator.share({
     title: "Santiago Garcia Solimei — Unfiltered Mindsets",
-    text: "Founder · Resident Cultural Hacker\nhello@unfilteredmindsets.com · +34 600 949 753",
-    url: "https://ssolimei.github.io/contact"
-  }).catch(() => {});
-}
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
-</script>
-</body>
-</html>
+    text: "Founder · Resident Cult
