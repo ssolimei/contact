@@ -9,14 +9,10 @@
 <meta property="og:description" content="Founder · Resident Cultural Hacker. Humanizing the future of business.">
 <meta property="og:url" content="https://ssolimei.github.io/contact">
 <meta property="og:type" content="profile">
-<meta name="theme-color" content="#39FF14">
+<meta name="theme-color" content="#080808">
 <link rel="canonical" href="https://ssolimei.github.io/contact">
-
-<!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
-
-<!-- iOS Home Screen App -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Unfiltered">
@@ -24,334 +20,430 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── BRAND TOKENS ── */
+:root {
+  --void-black:   #080808;
+  --surface:      #141414;
+  --signal-green: #39FF14;
+  --deep-green:   #2DC110;
+  --truth-white:  #FFFFFF;
+  --noise-grey:   #888888;
+  --green-dim:    rgba(57,255,20,0.08);
+  --green-border: rgba(57,255,20,0.18);
+  --green-mid:    rgba(57,255,20,0.4);
+}
 
-  body {
-    background: #080808;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
-    color: #fff;
-    padding: max(env(safe-area-inset-top), 20px) 20px max(env(safe-area-inset-bottom), 20px);
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  .card {
-    width: 100%;
-    max-width: 420px;
-    background: #060a06;
-    border: 1px solid rgba(57,255,20,0.15);
-    border-radius: 2px;
-    overflow: hidden;
-    position: relative;
-  }
+body {
+  background: var(--void-black);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--truth-white);
+  padding: max(env(safe-area-inset-top), 24px) 20px max(env(safe-area-inset-bottom), 24px);
+}
 
-  /* Scan lines */
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 3px,
-      rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
+/* ── SCAN-LINE TEXTURE ON BODY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* Top bar */
-  .top-bar {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 28px 18px;
-    border-bottom: 1px solid rgba(57,255,20,0.1);
-  }
+/* ── CARD ── */
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--green-border);
+  position: relative;
+  overflow: hidden;
+  /* Entrance animation */
+  animation: cardIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
 
-  .logo-lockup {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-  .logo-lockup svg {
-    animation: pulse 4s ease-in-out infinite;
-  }
+/* Green left-edge accent — brand rule: signal green used sparingly */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--signal-green);
+  box-shadow: 0 0 18px rgba(57,255,20,0.6);
+}
 
-  @keyframes pulse {
-    0%, 100% { filter: drop-shadow(0 0 4px rgba(57,255,20,0.4)); }
-    50%       { filter: drop-shadow(0 0 10px rgba(57,255,20,0.8)); }
-  }
+/* ── TOP BAR ── */
+.top-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 18px 32px;
+  border-bottom: 1px solid var(--green-border);
+}
 
-  .brand-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 5px;
-    line-height: 1;
-  }
-  .brand-name .w1 { color: #fff; }
-  .brand-name .w2 { color: #39FF14; }
+.logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  .rec-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .rec-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #39FF14;
-    box-shadow: 0 0 5px rgba(57,255,20,0.9);
-    animation: blink 2s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.1; }
-  }
-  .rec-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 3px;
-    color: rgba(57,255,20,0.5);
-  }
+/* Animated brain glow — neon effect from brand system */
+.brain-svg {
+  animation: brainPulse 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes brainPulse {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(57,255,20,0.5)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(57,255,20,0.9)); }
+}
 
-  /* QR section */
-  .qr-section {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 36px 28px 28px;
-    gap: 16px;
-  }
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.wordmark-top {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 5px;
+  color: var(--truth-white);
+  line-height: 1;
+}
+.wordmark-bottom {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 5px;
+  color: var(--signal-green);
+  line-height: 1;
+}
 
-  .qr-frame {
-    position: relative;
-    padding: 16px;
-    background: #fff;
-    border-radius: 2px;
-  }
+/* REC indicator */
+.rec-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rec-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--signal-green);
+  box-shadow: 0 0 6px var(--signal-green);
+  animation: blink 2s step-end infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.rec-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: var(--green-mid);
+  text-transform: uppercase;
+}
 
-  /* Corner brackets on QR */
-  .qr-frame::before, .qr-frame::after {
-    content: '';
-    position: absolute;
-    width: 16px; height: 16px;
-    border-color: #39FF14;
-    border-style: solid;
-  }
-  .qr-frame::before {
-    top: -2px; left: -2px;
-    border-width: 2px 0 0 2px;
-  }
-  .qr-frame::after {
-    bottom: -2px; right: -2px;
-    border-width: 0 2px 2px 0;
-  }
+/* ── HERO NAME BLOCK ── */
+.hero-block {
+  position: relative;
+  z-index: 1;
+  padding: 32px 28px 24px 32px;
+  border-bottom: 1px solid var(--green-border);
+}
 
-  .qr-corner-tr, .qr-corner-bl {
-    position: absolute;
-    width: 16px; height: 16px;
-    border-color: #39FF14;
-    border-style: solid;
-  }
-  .qr-corner-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
-  .qr-corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+/* Subtle noise texture */
+.hero-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
 
-  #qrcode {
-    display: block;
-    line-height: 0;
-  }
-  #qrcode img, #qrcode canvas {
-    display: block;
-  }
+.person-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  letter-spacing: 3px;
+  color: var(--truth-white);
+  line-height: 0.93;
+  margin-bottom: 14px;
+  position: relative;
+}
 
-  .scan-hint {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 4px;
-    color: rgba(57,255,20,0.4);
-    text-transform: uppercase;
-    text-align: center;
-  }
+/* Brand rule: key word in green */
+.person-name .green { color: var(--signal-green); }
 
-  /* Divider */
-  .divider {
-    position: relative;
-    z-index: 1;
-    height: 1px;
-    margin: 0 28px;
-    background: linear-gradient(to right, transparent, rgba(57,255,20,0.2) 30%, rgba(57,255,20,0.2) 70%, transparent);
-  }
+.person-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--signal-green);
+  text-shadow: 0 0 12px rgba(57,255,20,0.7);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
 
-  /* Info section */
-  .info-section {
-    position: relative;
-    z-index: 1;
-    padding: 28px 28px 24px;
-  }
+/* Brand tagline — small, meta */
+.brand-tagline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--noise-grey);
+  line-height: 1.5;
+  border-left: 2px solid var(--green-border);
+  padding-left: 12px;
+}
 
-  .person-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 4px;
-    color: #fff;
-    line-height: 0.95;
-    margin-bottom: 10px;
-  }
+/* ── CONTACT LIST ── */
+.contact-section {
+  position: relative;
+  z-index: 1;
+  padding: 24px 28px 24px 32px;
+  border-bottom: 1px solid var(--green-border);
+}
 
-  .person-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: #39FF14;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-  .contact-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
+.contact-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
 
-  .contact-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+.contact-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--green-mid);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  width: 52px;
+}
 
-  .contact-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 3px;
-    color: rgba(57,255,20,0.4);
-    text-transform: uppercase;
-  }
+.contact-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  word-break: break-all;
+}
 
-  .contact-value {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.8);
-  }
+.contact-value a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.contact-value a:hover, .contact-value a:active {
+  color: var(--signal-green);
+}
 
-  /* Clickable contact links */
-  .contact-value a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .contact-value a:hover, .contact-value a:active {
-    color: #39FF14;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
+/* ── QR SECTION ── */
+.qr-section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px 24px 32px;
+  border-bottom: 1px solid var(--green-border);
+}
 
-  /* Action buttons */
-  .action-row {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    gap: 10px;
-    margin: 0 28px 28px;
-  }
+.qr-wrap {
+  position: relative;
+  flex-shrink: 0;
+  padding: 12px;
+  background: #fff;
+}
 
-  .action-btn {
-    flex: 1;
-    padding: 14px 10px;
-    background: transparent;
-    border: 1px solid #39FF14;
-    color: #39FF14;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.2s;
-    box-shadow: 0 0 12px rgba(57,255,20,0.15), inset 0 0 12px rgba(57,255,20,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
+/* Corner brackets on QR */
+.qr-wrap::before, .qr-wrap::after,
+.qr-wrap .corner-tr, .qr-wrap .corner-bl {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: var(--signal-green);
+  border-style: solid;
+}
+.qr-wrap::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.qr-wrap::after  { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+.qr-wrap .corner-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+.qr-wrap .corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
 
-  .action-btn:hover, .action-btn:active {
-    background: rgba(57,255,20,0.1);
-    box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 20px rgba(57,255,20,0.08);
-  }
+#qrcode, #qrcode img, #qrcode canvas { display: block; }
 
-  /* Share button — slightly dimmed until tapped */
-  .share-btn {
-    border-color: rgba(57,255,20,0.55);
-    color: rgba(57,255,20,0.65);
-  }
+.qr-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  /* Hidden when Web Share API not available */
-  .share-btn.hidden { display: none; }
-  /* When share is hidden, save btn takes full width */
-  .action-row .action-btn:only-child { flex: none; width: 100%; }
+.qr-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--green-mid);
+  text-transform: uppercase;
+  line-height: 1.5;
+}
 
-  /* Footer */
-  .footer {
-    position: relative;
-    z-index: 1;
-    padding: 14px 28px;
-    border-top: 1px solid rgba(57,255,20,0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* Napkin quote — brand system p.09 card spec */
+.napkin-quote {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.25);
+  line-height: 1.2;
+}
+.napkin-quote em {
+  display: block;
+  font-style: normal;
+  color: var(--signal-green);
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 2px;
+  margin-top: 6px;
+}
 
-  .footer-tagline {
-    font-family: 'Space Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 2px;
-    color: rgba(57,255,20,0.2);
-    font-style: italic;
-  }
+/* ── ACTION BUTTONS ── */
+.action-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0;
+}
 
-  .footer-url {
-    font-family: 'Space Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.15);
-  }
+.action-btn {
+  flex: 1;
+  padding: 16px 10px;
+  background: transparent;
+  border: none;
+  border-top: none;
+  color: var(--signal-green);
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid var(--green-border);
+}
+
+.action-btn:first-child {
+  border-right: 1px solid var(--green-border);
+}
+
+.action-btn:hover, .action-btn:active {
+  background: var(--green-dim);
+  color: var(--truth-white);
+}
+
+/* save btn — primary */
+.save-btn {
+  color: var(--signal-green);
+  text-shadow: 0 0 10px rgba(57,255,20,0.4);
+}
+
+/* share btn */
+.share-btn {
+  color: rgba(57,255,20,0.5);
+}
+.share-btn.hidden { display: none; }
+.action-row .action-btn:only-child { flex: none; width: 100%; border-right: none; }
+
+/* ── FOOTER ── */
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 12px 28px 12px 32px;
+  border-top: 1px solid var(--green-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+}
+
+.footer-hash {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: rgba(57,255,20,0.2);
+}
+
+.footer-url {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.1);
+}
+
+/* ── GLITCH ANIMATION ── */
+@keyframes glitch {
+  0%,90%,100% { clip-path: none; transform: none; }
+  91% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); transform: translateX(-4px); }
+  92% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); transform: translateX(4px); }
+  93% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translateX(-2px); }
+  94% { clip-path: none; transform: none; }
+}
+.person-name {
+  animation: glitch 8s infinite;
+}
 </style>
 </head>
 <body>
 
 <div class="card">
 
-  <!-- Top bar -->
+  <!-- TOP BAR -->
   <div class="top-bar">
     <div class="logo-lockup">
-      <!-- Primary brain mark -->
-      <svg width="22" height="22" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Brain mark — primary icon -->
+      <svg class="brain-svg" width="26" height="26" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="b1"/>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b2"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b1"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4"   result="b2"/>
             <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
         <g filter="url(#glow)" stroke="#39FF14" fill="none">
-          <path stroke-width="2" d="M40 12C25 12, 10 23, 10 40C10 54, 18 64, 32 67L40 67L40 12Z"/>
-          <path stroke-width="2" d="M40 12C55 12, 70 23, 70 40C70 54, 62 64, 48 67L40 67L40 12Z"/>
+          <path stroke-width="2.5" d="M40 12C25 12,10 23,10 40C10 54,18 64,32 67L40 67L40 12Z"/>
+          <path stroke-width="2.5" d="M40 12C55 12,70 23,70 40C70 54,62 64,48 67L40 67L40 12Z"/>
           <line x1="40" y1="12" x2="40" y2="67" stroke-width="2"/>
-          <circle cx="40" cy="40" r="3.5" fill="#39FF14" stroke="none"/>
+          <circle cx="40" cy="40" r="4" fill="#39FF14" stroke="none"/>
         </g>
       </svg>
-      <div class="brand-name">
-        <span class="w1">UNFILTERED </span><span class="w2">MINDSETS</span>
+      <div class="wordmark">
+        <div class="wordmark-top">UNFILTERED</div>
+        <div class="wordmark-bottom">MINDSETS</div>
       </div>
     </div>
     <div class="rec-wrap">
@@ -360,111 +452,111 @@
     </div>
   </div>
 
-  <!-- QR Code -->
-  <div class="qr-section">
-    <div class="qr-frame">
-      <div class="qr-corner-tr"></div>
-      <div class="qr-corner-bl"></div>
-      <div id="qrcode"></div>
-    </div>
-    <div class="scan-hint">Scan to save contact</div>
+  <!-- HERO NAME BLOCK -->
+  <div class="hero-block">
+    <div class="person-name">SANTIAGO<br><span class="green">GARCIA</span><br>SOLIMEI</div>
+    <div class="person-title">01 — FOUNDER · RESIDENT CULTURAL HACKER</div>
+    <div class="brand-tagline">Humanizing the future of business<br>through radical truth.</div>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- Contact info -->
-  <div class="info-section">
-    <div class="person-name">SANTIAGO<br>GARCIA SOLIMEI</div>
-    <div class="person-title">Founder · Resident Cultural Hacker</div>
+  <!-- CONTACT INFO -->
+  <div class="contact-section">
     <div class="contact-list">
       <div class="contact-item">
-        <div class="contact-label">Email</div>
+        <div class="contact-label">EMAIL</div>
         <div class="contact-value"><a href="mailto:hello@unfilteredmindsets.com">hello@unfilteredmindsets.com</a></div>
       </div>
       <div class="contact-item">
-        <div class="contact-label">Cell</div>
+        <div class="contact-label">CELL</div>
         <div class="contact-value"><a href="tel:+34600949753">+34 600 949 753</a></div>
       </div>
       <div class="contact-item">
-        <div class="contact-label">Web</div>
+        <div class="contact-label">WEB</div>
         <div class="contact-value"><a href="https://unfiltered-mindsets.com" target="_blank" rel="noopener">unfiltered-mindsets.com</a></div>
       </div>
       <div class="contact-item">
-        <div class="contact-label">Instagram</div>
+        <div class="contact-label">IG</div>
         <div class="contact-value"><a href="https://instagram.com/santigarciaunfiltered" target="_blank" rel="noopener">@santigarciaunfiltered</a></div>
       </div>
     </div>
-
   </div>
 
-  <!-- Action buttons -->
+  <!-- QR CODE -->
+  <div class="qr-section">
+    <div class="qr-wrap">
+      <div class="corner-tr"></div>
+      <div class="corner-bl"></div>
+      <div id="qrcode"></div>
+    </div>
+    <div class="qr-meta">
+      <div class="qr-hint">SCAN TO<br>SAVE CONTACT</div>
+      <div class="napkin-quote">
+        IF IT DOESN'T FIT<br>ON A NAPKIN,<br>IT'S NOISE.
+        <em>#UNFILTEREDMINDSETS</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
   <div class="action-row">
-    <a class="action-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
-      ↓ Save Contact
+    <a class="action-btn save-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
+      ↓ SAVE CONTACT
     </a>
     <button class="action-btn share-btn hidden" id="shareBtn" onclick="shareCard()">
-      ↑ Share / AirDrop
+      ↑ SHARE
     </button>
   </div>
 
+  <!-- FOOTER -->
   <div class="footer">
-    <div class="footer-tagline">Humanizing the future of business</div>
+    <div class="footer-hash">#UNFILTEREDMINDSETS</div>
     <div class="footer-url">unfiltered-mindsets.com</div>
   </div>
 
 </div>
 
 <script>
-  // vCard data — encoded directly into the QR code
-  // Scanning this on any modern phone will prompt "Save Contact"
-  const vcard = [
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-    "N:Garcia Solimei;Santiago;;;",
-    "FN:Santiago Garcia Solimei",
-    "ORG:Unfiltered Mindsets",
-    "TITLE:Founder - Resident Cultural Hacker",
-    "TEL;TYPE=CELL,VOICE:+34600949753",
-    "EMAIL;TYPE=INTERNET,PREF:hello@unfilteredmindsets.com",
-    "URL:https://unfiltered-mindsets.com",
-    "X-SOCIALPROFILE;type=instagram:@santigarciaunfiltered",
-    "END:VCARD"
-  ].join("\n");
+const vcard = [
+  "BEGIN:VCARD",
+  "VERSION:3.0",
+  "N:Garcia Solimei;Santiago;;;",
+  "FN:Santiago Garcia Solimei",
+  "ORG:Unfiltered Mindsets",
+  "TITLE:Founder - Resident Cultural Hacker",
+  "TEL;TYPE=CELL,VOICE:+34600949753",
+  "EMAIL;TYPE=INTERNET,PREF:hello@unfilteredmindsets.com",
+  "URL:https://unfiltered-mindsets.com",
+  "X-SOCIALPROFILE;type=instagram:@santigarciaunfiltered",
+  "END:VCARD"
+].join("\n");
 
-  // Generate QR code
-  new QRCode(document.getElementById("qrcode"), {
-    text: vcard,
-    width: 96,
-    height: 96,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.M
-  });
+new QRCode(document.getElementById("qrcode"), {
+  text: vcard,
+  width: 108,
+  height: 108,
+  colorDark: "#000000",
+  colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.M
+});
 
-  // Wire up the download button with the vCard blob
-  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-  const url  = URL.createObjectURL(blob);
-  document.getElementById("saveBtn").href = url;
+const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+document.getElementById("saveBtn").href = URL.createObjectURL(blob);
 
-  // Show Share / AirDrop button only when Web Share API is available (iOS Safari, Android Chrome)
-  if (navigator.share) {
-    document.getElementById("shareBtn").classList.remove("hidden");
-  }
+if (navigator.share) {
+  document.getElementById("shareBtn").classList.remove("hidden");
+}
 
-  // AirDrop / Share sheet
-  function shareCard() {
-    navigator.share({
-      title: "Santiago Garcia Solimei — Unfiltered Mindsets",
-      text: "Founder · Resident Cultural Hacker\nhello@unfilteredmindsets.com · +34 600 949 753",
-      url: "https://ssolimei.github.io/contact"
-    }).catch(() => { /* user dismissed — no action needed */ });
-  }
+function shareCard() {
+  navigator.share({
+    title: "Santiago Garcia Solimei — Unfiltered Mindsets",
+    text: "Founder · Resident Cultural Hacker\nhello@unfilteredmindsets.com · +34 600 949 753",
+    url: "https://ssolimei.github.io/contact"
+  }).catch(() => {});
+}
 
-  // Register service worker for offline / PWA home screen support
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => { /* non-critical */ });
-  }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
 </script>
-
 </body>
 </html>
