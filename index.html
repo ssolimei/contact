@@ -507,11 +507,8 @@ body::before {
 
   <!-- ACTIONS -->
   <div class="action-row">
-    <a class="action-btn save-btn" id="saveBtn" href="#" >
-      ↓ SAVE CONTACT
-    </a>
-    <button class="action-btn share-btn hidden" id="shareBtn" onclick="shareCard()">
-      ↑ SHARE
+    <button class="action-btn save-btn" id="saveBtn" onclick="handleSave()">
+      ↓ SAVE &amp; SHARE
     </button>
   </div>
 
@@ -538,40 +535,39 @@ const vcard = [
   "END:VCARD"
 ].join("\n");
 
-// QR is now a static embedded PNG — no JS generation needed
+// Unified Save & Share handler
+function handleSave() {
+  var vcfBlob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+  var vcfUrl  = URL.createObjectURL(vcfBlob);
 
-// Save contact — cross-platform (iOS + Android)
-function saveContact() {
-  var encoded = encodeURIComponent(vcard);
-  var dataUri = 'data:text/vcard;charset=utf-8,' + encoded;
-  
-  // iOS Safari: open in new tab so it triggers the "Add to Contacts" sheet
-  // Android / desktop: direct download
-  var ua = navigator.userAgent;
-  var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-  
-  if (isIOS) {
-    window.open(dataUri);
+  // Use native share sheet if available (iOS/Android) — shows AirDrop, WhatsApp, Save to Contacts, etc.
+  if (navigator.share) {
+    navigator.share({
+      title: "Santiago Garcia Solimei",
+      text:  "Founder · Resident Cultural Hacker\nhello@unfilteredmindsets.com",
+      url:   "https://ssolimei.github.io/contact"
+    }).catch(function() {
+      // User dismissed — fallback to download
+      triggerDownload(vcfUrl);
+    });
   } else {
-    var link = document.createElement('a');
-    link.href = dataUri;
-    link.download = 'Santiago_Garcia_Solimei.vcf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Desktop fallback: download the .vcf file directly
+    triggerDownload(vcfUrl);
   }
 }
 
-document.getElementById("saveBtn").addEventListener('click', function(e) {
-  e.preventDefault();
-  saveContact();
-});
-
-if (navigator.share) {
-  document.getElementById("shareBtn").classList.remove("hidden");
+function triggerDownload(url) {
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "Santiago_Garcia_Solimei.vcf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
-function shareCard() {
-  navigator.share({
-    title: "Santiago Garcia Solimei — Unfiltered Mindsets",
-    text: "Founder · Resident Cult
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(function(){});
+}
+</script>
+</body>
+</html>
