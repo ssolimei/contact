@@ -507,7 +507,7 @@ body::before {
 
   <!-- ACTIONS -->
   <div class="action-row">
-    <a class="action-btn save-btn" id="saveBtn" href="#" download="Santiago_Garcia_Solimei.vcf">
+    <a class="action-btn save-btn" id="saveBtn" href="#" >
       ↓ SAVE CONTACT
     </a>
     <button class="action-btn share-btn hidden" id="shareBtn" onclick="shareCard()">
@@ -540,8 +540,32 @@ const vcard = [
 
 // QR is now a static embedded PNG — no JS generation needed
 
-const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-document.getElementById("saveBtn").href = URL.createObjectURL(blob);
+// Save contact — cross-platform (iOS + Android)
+function saveContact() {
+  var encoded = encodeURIComponent(vcard);
+  var dataUri = 'data:text/vcard;charset=utf-8,' + encoded;
+  
+  // iOS Safari: open in new tab so it triggers the "Add to Contacts" sheet
+  // Android / desktop: direct download
+  var ua = navigator.userAgent;
+  var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  
+  if (isIOS) {
+    window.open(dataUri);
+  } else {
+    var link = document.createElement('a');
+    link.href = dataUri;
+    link.download = 'Santiago_Garcia_Solimei.vcf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+document.getElementById("saveBtn").addEventListener('click', function(e) {
+  e.preventDefault();
+  saveContact();
+});
 
 if (navigator.share) {
   document.getElementById("shareBtn").classList.remove("hidden");
